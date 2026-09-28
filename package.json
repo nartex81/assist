@@ -1,0 +1,11 @@
+{
+  "name": "navorming-copilot-agents",
+  "private": true,
+  "description": "Materiaal voor de navorming over Copilot-agents voor schoolleiders",
+  "scripts": {
+    "build:site": "node tools/build-pages.js"
+  },
+  "dependencies": {
+    "docx": "^9.7.2"
+  }
+}

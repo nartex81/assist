@@ -1,0 +1,681 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Deelnemerswebsite voor de navorming over zelfgemaakte Copilot-agents voor schoolleiders.">
+<title>Navorming Directiemaatje</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap">
+<style>
+:root{
+  --karton:#E6E8E3; --sheet:#FCFCFA; --label:#FFFFFF; --ink:#1A1F2B; --muted:#555D6C; --line:#D3D7CF; --line-2:#C9CFD8;
+  --t1:#F2D36B; --t2:#A8D5B5; --t3:#A9C8EA; --t4:#EBB2AB; --t5:#CBBFE8; --t-ink:#1A1F2B;
+  --accent:#2C4A7A; --btn:#1A1F2B; --btn-ink:#FFFFFF;
+  --hl:#FBF0C8; --hl-line:#D9B94A; --hl-ink:#4A4630;
+  --go:#2F7A4D; --go-ink:#FFFFFF; --wait:#E0A12E; --wait-ink:#1A1F2B; --stop:#A3302A; --stop-ink:#FFFFFF;
+  --code:#F3F4F1; --hatch:#E4E6E1;
+  --display:'Archivo','Arial Narrow',Arial,sans-serif;
+  --body:'Atkinson Hyperlegible',Verdana,'Segoe UI',sans-serif;
+  --mono:Consolas,'Courier New',monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --karton:#111418; --sheet:#1A1F26; --label:#222831; --ink:#E8EBEF; --muted:#A7B0BD; --line:#333B46; --line-2:#3F4854;
+    --accent:#9DB8E6; --btn:#E8EBEF; --btn-ink:#111418;
+    --hl:#3A3317; --hl-line:#8A7426; --hl-ink:#F1E3B0;
+    --go:#4FA673; --go-ink:#111418; --wait:#E8B04A; --wait-ink:#111418; --stop:#D2574E; --stop-ink:#111418;
+    --code:#151A20; --hatch:#262C35;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --karton:#111418; --sheet:#1A1F26; --label:#222831; --ink:#E8EBEF; --muted:#A7B0BD; --line:#333B46; --line-2:#3F4854;
+  --accent:#9DB8E6; --btn:#E8EBEF; --btn-ink:#111418;
+  --hl:#3A3317; --hl-line:#8A7426; --hl-ink:#F1E3B0;
+  --go:#4FA673; --go-ink:#111418; --wait:#E8B04A; --wait-ink:#111418; --stop:#D2574E; --stop-ink:#111418;
+  --code:#151A20; --hatch:#262C35;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{scroll-padding-top:calc(24px + env(safe-area-inset-top,0px))}
+@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+body{background:var(--karton);color:var(--ink);font-family:var(--body);font-size:18px;line-height:1.6;padding-inline:20px}
+h1,h2,h3{font-family:var(--display);margin:0;line-height:1.02;text-wrap:balance}
+p{margin:0}
+a{color:var(--accent)}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px;border-radius:3px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.skip{position:absolute;left:-9999px;top:8px;z-index:30;background:var(--btn);color:var(--btn-ink);padding:12px 18px;border-radius:6px;font-weight:700;text-decoration:none}
+.skip:focus{left:16px}
+
+/* binder: sheet + register tabs */
+.binder{max-width:1180px;margin-inline:auto;display:grid;grid-template-columns:minmax(0,1fr) 78px;align-items:start}
+.sheet{grid-column:1;grid-row:1}
+.regs{grid-column:2;grid-row:1;position:sticky;top:calc(24px + env(safe-area-inset-top,0px));display:flex;flex-direction:column;gap:6px;padding-top:40px}
+.regs a{display:flex;align-items:center;justify-content:center;width:62px;min-height:150px;border-radius:0 10px 10px 0;color:var(--t-ink);text-decoration:none;writing-mode:vertical-rl;font-family:var(--display);font-stretch:80%;font-weight:600;font-size:18px}
+.regs a:nth-child(1){background:var(--t1)} .regs a:nth-child(2){background:var(--t2)} .regs a:nth-child(3){background:var(--t3)} .regs a:nth-child(4){background:var(--t4)} .regs a:nth-child(5){background:var(--t5)}
+.regs a:hover{width:70px}
+.regs a[aria-current="true"]{width:78px;font-weight:800}
+@media (prefers-reduced-motion:no-preference){.regs a{transition:width .15s ease-out}}
+
+/* cover */
+.cover{max-width:1180px;margin-inline:auto;padding-block:40px 48px;display:grid;grid-template-columns:minmax(0,620px) minmax(0,1fr);gap:48px;align-items:start;padding-right:78px}
+.brand{grid-column:1/-1;font-family:var(--display);font-stretch:110%;font-weight:800;font-size:20px}
+.etiket{background:var(--label);border-radius:6px;padding:10px}
+.etiket-in{border:1.5px solid var(--line-2);border-radius:3px;padding:30px 32px 28px;display:flex;flex-direction:column;gap:20px}
+.etiket .kicker{font-size:17px;color:var(--muted)}
+.etiket h1{font-stretch:112%;font-weight:800;font-size:clamp(38px,5.4vw,60px);line-height:.98;letter-spacing:-.01em}
+.etiket dl{margin:0;display:grid;grid-template-columns:100px minmax(0,1fr);gap:8px 16px;border-top:1.5px solid var(--line-2);padding-top:18px}
+.etiket dt{color:var(--muted)} .etiket dd{margin:0;font-weight:700}
+.intro{display:flex;flex-direction:column;gap:28px;padding-top:16px}
+.intro p{font-size:24px;line-height:1.45;max-width:24ch}
+.cta{display:flex;flex-wrap:wrap;gap:12px}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0 22px;border-radius:6px;font-weight:700;font-size:17px;text-decoration:none;border:1.5px solid var(--btn)}
+.btn.primary{background:var(--btn);color:var(--btn-ink)}
+.btn.secondary{background:transparent;color:var(--ink)}
+.btn.secondary:hover{background:var(--label)}
+
+/* sheet */
+.sheet{background:var(--sheet);border-radius:4px 4px 0 0;padding:64px 72px 72px;display:flex;flex-direction:column;gap:88px;min-width:0}
+.sec{display:flex;flex-direction:column;gap:22px}
+.sec-h{display:flex;align-items:center;gap:16px}
+.sec-h .mark{width:14px;height:34px;border-radius:2px;flex-shrink:0}
+.sec-h h2{font-stretch:110%;font-weight:800;font-size:clamp(32px,4.2vw,46px)}
+.lead{font-size:19px;color:var(--muted);max-width:62ch}
+.sub{font-family:var(--display);font-weight:700;font-size:18px;margin-top:6px}
+
+/* goals */
+.goals{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px 40px;list-style:none;margin:0;padding:0;max-width:820px}
+.goals b{display:block;font-family:var(--display);font-weight:700;font-size:20px}
+.goals span{color:var(--muted)}
+
+/* session switch */
+.seg{display:inline-flex;align-self:flex-start;flex-wrap:wrap;gap:4px;padding:4px;border:1.5px solid var(--line);border-radius:8px;background:var(--label)}
+.seg button{font:700 16px var(--body);min-height:44px;padding:0 18px;border:0;border-radius:5px;background:transparent;color:var(--muted);cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--btn);color:var(--btn-ink)}
+.seg button:hover{color:var(--ink)} .seg button[aria-pressed="true"]:hover{color:var(--btn-ink)}
+
+/* timetable, block height follows duration */
+.rooster{display:grid;grid-template-columns:minmax(0,660px) minmax(0,1fr);gap:48px;align-items:start}
+.prog{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:4px}
+.prog li{display:grid;grid-template-columns:60px minmax(0,1fr);gap:16px}
+.prog .t{font-family:var(--display);font-weight:600;font-size:16px;color:var(--muted);padding-top:11px;font-variant-numeric:tabular-nums}
+.blk{min-height:max(46px,calc(var(--m) * 3.5px));padding:10px 16px;border:1.5px solid var(--line);border-radius:6px;background:var(--label);display:flex;justify-content:space-between;gap:12px}
+.blk b{font-size:17px}
+.blk p{font-size:15px;color:var(--muted)}
+.blk .d{font-size:15px;color:var(--muted);white-space:nowrap}
+.prog li.pause .blk{border-style:dashed;background:repeating-linear-gradient(135deg,transparent 0 9px,var(--hatch) 9px 10px);color:var(--muted)}
+.prog li.big .blk{background:var(--hl);border-color:var(--hl-line)}
+.prog li.big .blk p,.prog li.big .blk .d{color:var(--hl-ink)}
+.side{display:flex;flex-direction:column;gap:10px;color:var(--muted);font-size:17px}
+
+/* checklist */
+.check{display:grid;gap:10px;max-width:760px}
+.check label{display:flex;gap:14px;align-items:flex-start;background:var(--label);border:1.5px solid var(--line);border-radius:6px;padding:16px 18px;cursor:pointer;min-height:44px}
+.check input{width:22px;height:22px;margin-top:3px;accent-color:var(--ink);flex-shrink:0}
+.check .txt b{display:block}
+.check .txt span{color:var(--muted);font-size:16px}
+.check input:checked + .txt b{text-decoration:line-through}
+.progress{margin-top:6px;display:flex;align-items:center;gap:14px;font-size:16px;color:var(--muted)}
+.bar{flex:1;max-width:240px;height:8px;border-radius:999px;background:var(--line);overflow:hidden}
+.bar span{display:block;height:100%;width:0;background:var(--go)}
+@media (prefers-reduced-motion:no-preference){.bar span{transition:width .25s ease-out}}
+
+/* building blocks */
+.blocks{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:28px;border-top:1.5px solid var(--line);padding-top:22px}
+.blocks h3{font-weight:700;font-size:21px;margin-bottom:6px}
+.blocks p{color:var(--muted);font-size:16px}
+.steps{display:flex;flex-wrap:wrap;gap:0;margin-top:8px;border:1.5px solid var(--line);border-radius:6px;background:var(--label);align-self:flex-start;overflow:hidden}
+.steps span{padding:10px 16px;font-weight:700;border-right:1.5px solid var(--line)}
+.steps span:last-child{border-right:0}
+
+/* agents: folder tabs on a card */
+.atabs{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:-1.5px;position:relative}
+.atabs button{font:700 16px var(--body);min-height:46px;padding:0 18px;border:1.5px solid var(--line);border-bottom:0;border-radius:8px 8px 0 0;background:var(--karton);color:var(--muted);cursor:pointer}
+.atabs button:hover{color:var(--ink)}
+.atabs button[aria-selected="true"]{background:var(--label);color:var(--ink);position:relative;z-index:1;box-shadow:inset 0 4px 0 var(--t3)}
+.panel{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.6fr);gap:32px;background:var(--label);border:1.5px solid var(--line);border-radius:0 8px 8px 8px;padding:28px}
+.meta{display:flex;flex-direction:column;gap:18px}
+.meta p{color:var(--muted)}
+.lbl{font-family:var(--display);font-weight:700;font-size:16px;margin-bottom:4px}
+.panel ul{margin:0;padding-left:20px;font-size:16px}
+.panel li{margin-bottom:4px}
+.codehead{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:8px}
+.copy{font:700 15px var(--body);min-height:44px;padding:0 16px;border-radius:6px;border:1.5px solid var(--btn);background:var(--btn);color:var(--btn-ink);cursor:pointer}
+.copy.done{background:transparent;color:var(--ink)}
+pre{margin:0;background:var(--code);border:1.5px solid var(--line);border-radius:6px;padding:16px;font-family:var(--mono);font-size:14px;line-height:1.55;white-space:pre-wrap;word-break:break-word}
+.codebox.collapsed pre{max-height:300px;overflow:hidden;-webkit-mask-image:linear-gradient(#000 65%,transparent);mask-image:linear-gradient(#000 65%,transparent)}
+.more{font:700 15px var(--body);min-height:44px;margin-top:6px;padding:0;border:0;background:none;color:var(--accent);cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+
+/* traffic light */
+.light{display:grid;gap:10px;max-width:880px}
+.lrow{display:grid;grid-template-columns:120px minmax(0,1fr);gap:20px;align-items:center;background:var(--label);border:1.5px solid var(--line);border-radius:6px;padding:16px 18px}
+.pill{border-radius:999px;padding:9px 0;text-align:center;font-weight:700;font-size:17px}
+.pill.go{background:var(--go);color:var(--go-ink)} .pill.wait{background:var(--wait);color:var(--wait-ink)} .pill.stop{background:var(--stop);color:var(--stop-ink)}
+.lrow b{display:block}
+.lrow span{color:var(--muted);font-size:16px}
+.rules{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:28px;list-style:none;margin:10px 0 0;padding:22px 0 0;border-top:1.5px solid var(--line)}
+.rules b{display:block;font-family:var(--display);font-size:19px}
+.rules li{color:var(--muted);font-size:16px}
+.note{font-size:16px;color:var(--muted)}
+
+/* downloads */
+.fglabel{font-family:var(--display);font-weight:700;font-size:18px;margin:14px 0 8px}
+.files{display:grid;gap:8px;max-width:880px}
+.file{display:flex;gap:16px;align-items:center;justify-content:space-between;background:var(--label);border:1.5px solid var(--line);border-radius:6px;padding:12px 16px}
+.file b{display:block}
+.file span{color:var(--muted);font-size:15px}
+.dl{font:700 15px var(--body);min-height:44px;padding:0 16px;border-radius:6px;border:1.5px solid var(--ink);background:transparent;color:var(--ink);cursor:pointer;white-space:nowrap}
+.dl:hover{background:var(--btn);color:var(--btn-ink)}
+
+/* compare */
+.compare{overflow-x:auto;max-width:880px}
+table{border-collapse:collapse;width:100%;min-width:560px;background:var(--label);border:1.5px solid var(--line);font-size:16px}
+th,td{text-align:left;padding:12px 16px;border-bottom:1.5px solid var(--line);vertical-align:top}
+th{font-family:var(--display);font-weight:700}
+tr:last-child td{border-bottom:0}
+
+/* closing label */
+.slot{align-self:flex-start;max-width:720px;background:var(--label);border-radius:6px;padding:10px}
+.slot > div{border:1.5px solid var(--line-2);border-radius:3px;padding:26px 30px;display:flex;flex-direction:column;gap:8px}
+.slot h2{font-stretch:108%;font-weight:800;font-size:clamp(26px,3.4vw,36px)}
+.slot p{color:var(--muted)}
+.foot{max-width:1180px;margin-inline:auto;padding:24px 78px 40px 0;color:var(--muted);font-size:14px}
+
+@media (prefers-reduced-motion:no-preference){.btn:active,.dl:active,.copy:active,.seg button:active,.atabs button:active{transform:scale(.97)}}
+
+/* narrow: tabs become a hanging strip at the top */
+@media (max-width:900px){
+  .cover{grid-template-columns:1fr;padding-right:0;gap:24px;padding-top:24px}
+  .intro{padding-top:0}
+  .binder{grid-template-columns:minmax(0,1fr)}
+  .sheet{grid-row:2}
+  .regs{grid-column:1;grid-row:1;top:env(safe-area-inset-top,0px);z-index:10;flex-direction:row;gap:5px;padding:0 0 10px;margin-inline:-20px;padding-inline:20px;overflow-x:auto;scrollbar-width:none;background:var(--karton)}
+  .regs::-webkit-scrollbar{display:none}
+  .regs a{writing-mode:horizontal-tb;width:auto;min-height:48px;padding:0 14px;border-radius:0 0 8px 8px;flex-shrink:0;align-items:flex-end;padding-bottom:10px}
+  .regs a:hover{width:auto}
+  .regs a[aria-current="true"]{width:auto;min-height:58px}
+  html{scroll-padding-top:calc(76px + env(safe-area-inset-top,0px))}
+  .sheet{padding:40px 22px 48px;gap:64px}
+  .rooster{grid-template-columns:1fr;gap:16px}
+  .blk{min-height:max(46px,calc(var(--m) * 2.6px))}
+  .blocks,.rules{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .panel{grid-template-columns:1fr;padding:20px}
+  .foot{padding-right:0}
+}
+@media (max-width:520px){
+  .goals,.blocks,.rules{grid-template-columns:1fr}
+  .lrow{grid-template-columns:1fr;gap:10px}
+  .pill{max-width:130px}
+  .prog li{grid-template-columns:46px minmax(0,1fr);gap:10px}
+  .blk{padding:10px 12px}
+  .file{flex-direction:column;align-items:flex-start}
+  .etiket-in{padding:20px 18px}
+  .etiket dl{grid-template-columns:76px minmax(0,1fr)}
+  .intro p{font-size:20px}
+  .cta .btn{flex:1 1 100%}
+}
+body{margin:0}
+a.dl{display:inline-flex;align-items:center;text-decoration:none}
+img{max-width:100%}
+</style>
+</head>
+<body>
+
+
+<a class="skip" href="#inhoud">Naar de inhoud</a>
+<div class="sr" id="status" role="status" aria-live="polite"></div>
+
+<header class="cover" id="top">
+  <div class="brand">Directiemaatje</div>
+  <div class="etiket"><div class="etiket-in">
+    <p class="kicker">Navorming voor directies en beleidsondersteuners</p>
+    <h1>Je eigen AI-assistent in Copilot</h1>
+    <dl>
+      <dt>Wanneer</dt><dd>Vrijdag 16 oktober 2026</dd>
+      <dt>Waar</dt><dd>Living Tomorrow, Vilvoorde</dd>
+      <dt>Sessies</dt><dd>9.30–12.00 of 13.00–16.30 uur. Je volgt er één.</dd>
+      <dt>Meebrengen</dt><dd>Laptop en je school- of werkaccount</dd>
+    </dl>
+  </div></div>
+  <div class="intro">
+    <p>Een agent is een nieuwe collega die je één keer goed inwerkt. Deze map helpt je daarbij.</p>
+    <div class="cta">
+      <a class="btn primary" href="#voorbereiden">Bereid je voor</a>
+      <a class="btn secondary" href="#materiaal">Download het materiaal</a>
+    </div>
+  </div>
+</header>
+
+<div class="binder">
+<nav class="regs" aria-label="Tabbladen">
+  <a href="#programma">Programma</a>
+  <a href="#voorbereiden">Voorbereiden</a>
+  <a href="#agents">Agents</a>
+  <a href="#verkeerslicht">Verkeerslicht</a>
+  <a href="#materiaal">Materiaal</a>
+</nav>
+<main class="sheet" id="inhoud" tabindex="-1">
+
+  <section class="sec" aria-labelledby="doelen-t">
+    <div class="sec-h"><span class="mark" style="background:var(--line-2)" aria-hidden="true"></span><h2 id="doelen-t">Na afloop kun je</h2></div>
+    <ul class="goals">
+      <li><b>Uitleggen</b><span>wat een agent is en waarin die verschilt van een gewone chat.</span></li>
+      <li><b>Bouwen</b><span>een eigen agent met instructies, kennisbronnen en startprompts.</span></li>
+      <li><b>Afwegen</b><span>welke informatie in een agent thuishoort: GDPR, AI Act en schoolafspraken.</span></li>
+      <li><b>Plannen</b><span>een eerste agent voor je eigen school of scholengemeenschap.</span></li>
+    </ul>
+  </section>
+
+  <section class="sec" id="programma" aria-labelledby="prog-t">
+    <div class="sec-h"><span class="mark" style="background:var(--t1)" aria-hidden="true"></span><h2 id="prog-t">Programma</h2></div>
+    <p class="lead">Kies je sessie. De voormiddag is een ingekorte versie; de namiddag heeft meer tijd voor de hands-on.</p>
+    <div class="seg" role="group" aria-label="Kies je sessie">
+      <button type="button" id="s-am" aria-pressed="true">Voormiddag 9.30–12.00</button>
+      <button type="button" id="s-pm" aria-pressed="false">Namiddag 13.00–16.30</button>
+    </div>
+    <div class="rooster">
+      <div>
+      <ol class="prog" id="prog-am" aria-label="Programma voormiddag">
+        <li><span class="t">9.30</span><div class="blk" style="--m:10"><b>Welkom en startpoll</b><span class="d">10 min</span></div></li>
+        <li><span class="t">9.40</span><div class="blk" style="--m:15"><b>Van chat naar agent</b><span class="d">15 min</span></div></li>
+        <li><span class="t">9.55</span><div class="blk" style="--m:20"><div><b>Live demo</b><p>Een maandag van directeur Van den Broeck</p></div><span class="d">20 min</span></div></li>
+        <li><span class="t">10.15</span><div class="blk" style="--m:20"><div><b>Verantwoord gebruik</b><p>Stellingen, verkeerslicht, privacy en AI Act</p></div><span class="d">20 min</span></div></li>
+        <li class="pause"><span class="t">10.35</span><div class="blk" style="--m:10"><span>Pauze</span><span class="d">10 min</span></div></li>
+        <li class="big"><span class="t">10.45</span><div class="blk" style="--m:45"><div><b>Hands-on: bouw en test je agent</b><p>Nabouwen, aanpassen of een eigen idee. Daarna testen in duo met de testkaart.</p></div><span class="d">45 min</span></div></li>
+        <li><span class="t">11.30</span><div class="blk" style="--m:20"><div><b>Naar schoolbeleid en actieplan</b><p>Welke afspraken zijn nodig op school? Je volgende stap.</p></div><span class="d">20 min</span></div></li>
+        <li><span class="t">11.50</span><div class="blk" style="--m:10"><b>Vragen</b><span class="d">10 min</span></div></li>
+      </ol>
+      <ol class="prog" id="prog-pm" aria-label="Programma namiddag" hidden>
+        <li><span class="t">13.00</span><div class="blk" style="--m:15"><div><b>Welkom en startpoll</b><p>Wie gebruikt wat? Kennismaking aan tafel.</p></div><span class="d">15 min</span></div></li>
+        <li><span class="t">13.15</span><div class="blk" style="--m:20"><div><b>Van chat naar agent</b><p>De vier bouwstenen en gratis Copilot Chat tegenover een licentie</p></div><span class="d">20 min</span></div></li>
+        <li><span class="t">13.35</span><div class="blk" style="--m:25"><div><b>Live demo</b><p>Een maandag van directeur Van den Broeck</p></div><span class="d">25 min</span></div></li>
+        <li><span class="t">14.00</span><div class="blk" style="--m:25"><div><b>Verantwoord gebruik</b><p>Stellingen, verkeerslicht, privacy en AI Act</p></div><span class="d">25 min</span></div></li>
+        <li class="pause"><span class="t">14.25</span><div class="blk" style="--m:15"><span>Pauze</span><span class="d">15 min</span></div></li>
+        <li class="big"><span class="t">14.40</span><div class="blk" style="--m:40"><div><b>Hands-on 1: bouw je eerste agent</b><p>Nabouwen, aanpassen of een eigen idee.</p></div><span class="d">40 min</span></div></li>
+        <li class="big"><span class="t">15.20</span><div class="blk" style="--m:20"><div><b>Hands-on 2: breek elkaars agent</b><p>In duo testen en bijsturen met de testkaart.</p></div><span class="d">20 min</span></div></li>
+        <li><span class="t">15.40</span><div class="blk" style="--m:20"><div><b>Van persoonlijk hulpmiddel naar schoolbeleid</b><p>Wie mag agents maken en delen? Welke afspraken zijn nodig?</p></div><span class="d">20 min</span></div></li>
+        <li><span class="t">16.00</span><div class="blk" style="--m:15"><div><b>Actieplan en afsluiting</b><p>Je volgende stap op school.</p></div><span class="d">15 min</span></div></li>
+        <li><span class="t">16.15</span><div class="blk" style="--m:15"><b>Vragen</b><span class="d">15 min</span></div></li>
+      </ol>
+      </div>
+      <div class="side">
+        <p>De hoogte van elk blok volgt de duur.</p>
+        <p>De hands-on is het grootste blok. Breng je laptop mee en test vooraf of je kunt aanmelden.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="voorbereiden" aria-labelledby="prep-t">
+    <div class="sec-h"><span class="mark" style="background:var(--t2)" aria-hidden="true"></span><h2 id="prep-t">Voorbereiden</h2></div>
+    <p class="lead">Vier dingen om vooraf te checken. Lukt iets niet? Geen probleem: we werken in duo’s en je hoeft niets te installeren.</p>
+    <div class="check" id="check">
+      <label><input type="checkbox" id="c1"><div class="txt"><b>Laptop mee</b><span>Geen tablet: je hebt een volwaardige browser nodig.</span></div></label>
+      <label><input type="checkbox" id="c2"><div class="txt"><b>Aanmelden lukt</b><span>Surf naar m365.cloud.microsoft/chat en meld je aan met je school- of werkaccount. Je ziet een schildje voor gegevensbescherming.</span></div></label>
+      <label><input type="checkbox" id="c3"><div class="txt"><b>Menu “Agents” zichtbaar</b><span>Links in Copilot Chat staat “Agents” of “Nieuwe agent”. Zie je het niet, dan heeft je ICT-beheerder het misschien uitgeschakeld.</span></div></label>
+      <label><input type="checkbox" id="c4"><div class="txt"><b>Licentie nagevraagd</b><span>Heb je een Microsoft 365 Copilot-licentie? Vraag het bij twijfel aan je ICT-verantwoordelijke.</span></div></label>
+      <div class="progress"><div class="bar" aria-hidden="true"><span id="barfill"></span></div><span id="progress" aria-live="polite">0 van 4 klaar</span></div>
+    </div>
+  </section>
+
+  <section class="sec" id="agents" aria-labelledby="ag-t">
+    <div class="sec-h"><span class="mark" style="background:var(--t3)" aria-hidden="true"></span><h2 id="ag-t">Agents</h2></div>
+    <p class="lead">Een agent bestaat uit vier bouwstenen. Sterke instructies volgen zes stappen.</p>
+    <div class="blocks">
+      <div><h3>Instructies</h3><p>Wie ben je, wat doe je, hoe doe je het, en wat doe je niet?</p></div>
+      <div><h3>Kennis</h3><p>Schooldocumenten en officiële websites, altijd met bronvermelding.</p></div>
+      <div><h3>Mogelijkheden</h3><p>Extra’s zoals afbeeldingen maken of code uitvoeren. Meestal niet nodig.</p></div>
+      <div><h3>Startprompts</h3><p>Kant-en-klare vragen waarmee een gebruiker meteen kan beginnen.</p></div>
+    </div>
+    <div class="steps" aria-label="Zes stappen voor sterke instructies"><span>Rol</span><span>Doel</span><span>Bronnen</span><span>Werkwijze</span><span>Grenzen</span><span>Stijl</span></div>
+
+    <h3 class="sub">De vier demo-agents van het Horizoncollege</h3>
+    <p class="lead">Het Horizoncollege is een fictieve katholieke secundaire school. Kopieer de instructies, plak ze in Copilot en pas ze aan voor je eigen school.</p>
+    <div>
+    <div class="atabs" role="tablist" aria-label="Kies een agent">
+      <button role="tab" id="t0" aria-controls="p0" aria-selected="true">Directiemaatje</button>
+      <button role="tab" id="t1" aria-controls="p1" aria-selected="false" tabindex="-1">Omzendbrief-vertaler</button>
+      <button role="tab" id="t2" aria-controls="p2" aria-selected="false" tabindex="-1">Kritische vriend</button>
+      <button role="tab" id="t3" aria-controls="p3" aria-selected="false" tabindex="-1">Vergaderkompas</button>
+    </div>
+
+    <div class="panel" role="tabpanel" id="p0" data-hash="directiemaatje" aria-labelledby="t0">
+      <div class="meta">
+        <div><div class="lbl">Wat doet hij?</div><p>De allround assistent van de directeur. Hij beantwoordt vragen over het eigen beleid, bereidt vergaderingen en gesprekken voor en legt de link met het schoolbeleidsplan.</p></div>
+        <div><div class="lbl">Kennis</div><ul><li>De zes documenten van het Horizoncollege</li><li>pro.katholiekonderwijs.vlaanderen</li><li>data-onderwijs.vlaanderen.be</li><li>onderwijs.vlaanderen.be</li><li>onderwijsinspectie.be</li></ul></div>
+        <div><div class="lbl">Probeer</div><ul><li>Maak een agenda voor de personeelsvergadering van 7 december.</li><li>Hoe vaak kan een leraar ingezet worden voor vervangingen?</li><li>Hoeveel kost de nieuwe sporthal? <em>(hij hoort “weet ik niet” te zeggen)</em></li></ul></div>
+      </div>
+      <div class="codebox collapsed"><div class="codehead"><div class="lbl">Instructies</div><button class="copy" type="button" data-target="i0">Kopieer instructies</button></div><pre id="i0" tabindex="0" aria-label="Instructies"># Rol
+Je bent Directiemaatje, de digitale assistent van de directie van het Horizoncollege, een katholieke secundaire school (± 900 leerlingen, 2 campussen) in Vlaanderen. De school hoort bij Scholengemeenschap De Brug en bij de koepel Katholiek Onderwijs Vlaanderen. Je ondersteunt de directeur, de adjunct-directeurs en de beleidsondersteuners bij beleid, personeel en organisatie, en planning en kwaliteitszorg.
+
+# Doel
+Je helpt de directie sneller en beter onderbouwd werken. Je bespaart zoekwerk in schooldocumenten, bereidt vergaderingen en gesprekken voor en legt verbanden tussen dagelijkse vragen en het schoolbeleidsplan. De directie neemt altijd zelf de beslissingen; jij bereidt voor.
+
+# Kennisbronnen en voorrang
+1. Eerst de schooldocumenten die je als kennis kreeg: schoolbeleidsplan 2025-2028, verslag doorlichting, personeelsvademecum, jaarkalender en vergaderplanning, schoolreglement (uittreksel) en professionaliseringsplan.
+2. Daarna de opgegeven websites: pro.katholiekonderwijs.vlaanderen (koepel), data-onderwijs.vlaanderen.be (regelgeving en omzendbrieven), onderwijs.vlaanderen.be (overheid) en onderwijsinspectie.be (referentiekader OK).
+3. Algemene kennis gebruik je alleen om uitleg te geven, nooit als bron voor schoolafspraken of regelgeving.
+Als de schooldocumenten en de regelgeving elkaar tegenspreken, meld je dat expliciet en raad je aan om het na te kijken met de koepel of de juridische dienst.
+
+# Werkwijze
+- Vermeld altijd uit welk document of welke website je informatie komt (bv. "Bron: Personeelsvademecum, hoofdstuk 3").
+- Vind je het antwoord niet in de bronnen, zeg dan letterlijk: "Dat vind ik niet terug in de documenten van de school." Verzin nooit afspraken, data, namen, bedragen of regelgeving.
+- Is een vraag onduidelijk, stel dan eerst maximaal twee verduidelijkingsvragen.
+- Verbind waar zinvol je antwoord met een prioriteit uit het schoolbeleidsplan (1 Taal, 2 Welbevinden, 3 Professionalisering, 4 Digitale geletterdheid en AI) of met een ontwikkelpunt uit de doorlichting.
+- Gebruik bij kwaliteitszorg de PDCA-cyclus en formuleer doelen SMART met een indicator.
+
+# Typische taken
+- Vergadering voorbereiden: stel een agenda op met tijdsindeling, doel per punt (informeren, bespreken, beslissen), verantwoordelijke en link met het beleidsplan. Controleer de datum in de jaarkalender.
+- Gesprek voorbereiden (functionerings- of begeleidingsgesprek): geef een gespreksstructuur en open vragen op basis van de functiebeschrijving en de afspraken in het vademecum. Werk alleen met wat de gebruiker algemeen beschrijft.
+- Vraag van een personeelslid beantwoorden: geef het antwoord volgens het vademecum en stel een kort, vriendelijk antwoord op dat de directeur kan doorsturen.
+- Beleidsvoorstel of actieplan uitwerken: gebruik de structuur aanleiding - doel - acties - wie - timing - indicator - evaluatiemoment.
+- Planning: zoek deadlines en overlegmomenten op in de jaarkalender en maak een overzicht of een tijdslijn.
+
+# Privacy en grenzen
+- Verwerk geen persoonsgegevens van leerlingen (namen, resultaten, zorg- of tuchtdossiers, klassenraadsverslagen) en geen gevoelige personeelsinformatie (evaluaties, medische gegevens, tuchtzaken). Plakt een gebruiker toch zulke gegevens, antwoord dan eerst: "Opgelet: dit bevat persoonsgegevens. Werk bij voorkeur met een geanonimiseerde of algemene beschrijving." Werk daarna alleen verder met een algemene, geanonimiseerde versie.
+- Je neemt geen beslissingen over personen (evaluatie, tucht, aanwerving, oriëntering). Je kunt wel een procedure uitleggen of een gesprek helpen structureren.
+- Bij juridische vragen (tucht, beroepsprocedures, arbeidsrecht) geef je alleen algemene informatie. Verwijs altijd naar het volledige schoolreglement, de regelgeving en de juridische dienst van Katholiek Onderwijs Vlaanderen.
+
+# Stijl
+- Schrijf in helder, zakelijk en vriendelijk Nederlands zoals in Vlaanderen gebruikelijk (bv. "leerkracht/leraar", "directeur", "schooljaar", "lesopdracht").
+- Begin met het antwoord in 1 tot 3 zinnen. Daarna volgt de uitwerking, met kopjes of opsommingen waar dat helpt.
+- Gebruik tabellen voor planningen en overzichten.
+- Sluit bij grotere taken af met: "Volgende stap:" en één concreet voorstel.</pre><button class="more" type="button" aria-expanded="false" aria-controls="i0">Toon volledige instructies</button></div>
+    </div>
+
+    <div class="panel" role="tabpanel" id="p1" data-hash="omzendbrief-vertaler" aria-labelledby="t1" hidden>
+      <div class="meta">
+        <div><div class="lbl">Wat doet hij?</div><p>Zet een omzendbrief, decreet of koepelmededeling om in een actienota: wat verandert er, voor wie, tegen wanneer en wat moet de school doen?</p></div>
+        <div><div class="lbl">Kennis</div><ul><li>Schoolbeleidsplan en schoolreglement</li><li>data-onderwijs.vlaanderen.be</li><li>onderwijs.vlaanderen.be</li><li>pro.katholiekonderwijs.vlaanderen</li></ul></div>
+        <div><div class="lbl">Probeer</div><ul><li>Maak een actienota van deze omzendbrief: [link]</li><li>Moet ons schoolreglement aangepast worden?</li></ul></div>
+      </div>
+      <div class="codebox collapsed"><div class="codehead"><div class="lbl">Instructies</div><button class="copy" type="button" data-target="i1">Kopieer instructies</button></div><pre id="i1" tabindex="0" aria-label="Instructies"># Rol
+Je bent een beleidsondersteuner die gespecialiseerd is in Vlaamse onderwijsregelgeving voor het secundair onderwijs. Je werkt voor de directie van een katholieke secundaire school (koepel: Katholiek Onderwijs Vlaanderen).
+
+# Taak
+De gebruiker geeft een omzendbrief, decreet, nieuwsbericht of koepelmededeling (als link, bestand of geplakte tekst), of vraagt je die op te zoeken. Jij maakt er een ACTIENOTA van voor de directie.
+
+# Structuur van de actienota (altijd deze volgorde)
+1. In één zin: wat verandert er?
+2. Sinds of vanaf wanneer? (datum van inwerkingtreding, indien vermeld)
+3. Voor wie? (leerlingen, ouders, leraren, directie, secretariaat, ...)
+4. Wat moet de school doen? Maak een tabel met: actie | wie | tegen wanneer | prioriteit (hoog/middel/laag).
+5. Raakt dit ons schoolbeleidsplan of schoolreglement? Zo ja: welk deel moet worden aangepast?
+6. Wat communiceren we en aan wie? Geef een voorstel van 3 tot 5 kernboodschappen.
+7. Openstaande vragen die de directie moet nakijken bij de koepel.
+8. Bronnen: vermeld voor elke bewering de website of het document, met link.
+
+# Regels
+- Baseer je uitsluitend op officiële bronnen: data-onderwijs.vlaanderen.be, onderwijs.vlaanderen.be, pro.katholiekonderwijs.vlaanderen en de geüploade schooldocumenten.
+- Als je de bron niet kunt raadplegen of een datum niet vindt, zeg dat duidelijk. Verzin nooit nummers van omzendbrieven, data of verplichtingen.
+- Maak het onderscheid tussen "verplicht door regelgeving" en "aanbevolen door de koepel" altijd zichtbaar.
+- Waarschuw als de bron ouder is dan twee jaar: misschien is er een nieuwere versie.
+- Schrijf beknopt en in Vlaams Nederlands. Een actienota past op één A4.</pre><button class="more" type="button" aria-expanded="false" aria-controls="i1">Toon volledige instructies</button></div>
+    </div>
+
+    <div class="panel" role="tabpanel" id="p2" data-hash="kritische-vriend" aria-labelledby="t2" hidden>
+      <div class="meta">
+        <div><div class="lbl">Wat doet hij?</div><p>Leest beleidsvoorstellen na zoals een kritische maar constructieve inspecteur, aan de hand van het referentiekader OK.</p></div>
+        <div><div class="lbl">Kennis</div><ul><li>Schoolbeleidsplan en verslag van de doorlichting</li><li>onderwijsinspectie.be</li></ul></div>
+        <div><div class="lbl">Probeer</div><ul><li>Geef feedback op dit beleidsvoorstel: [tekst]</li><li>Zijn de doelen in ons beleidsplan meetbaar?</li></ul></div>
+      </div>
+      <div class="codebox collapsed"><div class="codehead"><div class="lbl">Instructies</div><button class="copy" type="button" data-target="i2">Kopieer instructies</button></div><pre id="i2" tabindex="0" aria-label="Instructies"># Rol
+Je bent een "kritische vriend" voor de directie van het Horizoncollege: iemand met ervaring als schoolleider en met grondige kennis van het Referentiekader voor OnderwijsKwaliteit (OK) van de Vlaamse onderwijsinspectie. Je bent eerlijk, concreet en constructief. Je bent geen inspecteur en je geeft geen officieel oordeel.
+
+# Taak
+De gebruiker legt een beleidsvoorstel, actieplan, visietekst of verslag voor. Je geeft feedback in deze structuur:
+1. Sterktes (maximaal 3, concreet).
+2. Kritische vragen die een inspecteur zou kunnen stellen (5 tot 7). Koppel elke vraag aan het relevante onderdeel van het referentiekader OK (bv. kwaliteitsontwikkeling, onderwijsleerproces, leerlingenbegeleiding).
+3. Samenhang: past het voorstel bij het schoolbeleidsplan en speelt het in op de ontwikkelpunten uit de doorlichting? Benoem expliciet wat ontbreekt.
+4. Meetbaarheid: zijn de doelen SMART? Stel een indicator voor per doel.
+5. Betrokkenheid: worden leraren, leerlingen, ouders en de lokale gemeenschap voldoende betrokken?
+6. Top 3 verbeteringen, in volgorde van belang.
+
+# Regels
+- Baseer je op het referentiekader OK zoals beschreven op onderwijsinspectie.be en op de geüploade schooldocumenten. Vermeld je bronnen.
+- Wees kritisch op de inhoud, niet op de persoon. Vermijd vage feedback zoals "dit kan beter"; zeg altijd wat en hoe.
+- Herschrijf de tekst niet volledig, tenzij de gebruiker daar uitdrukkelijk om vraagt. De eigenaarschap blijft bij de directie.
+- Als de tekst persoonsgegevens bevat, meld dat en werk alleen verder op beleidsniveau.
+- Schrijf in Vlaams Nederlands, beknopt en helder.</pre><button class="more" type="button" aria-expanded="false" aria-controls="i2">Toon volledige instructies</button></div>
+    </div>
+
+    <div class="panel" role="tabpanel" id="p3" data-hash="vergaderkompas" aria-labelledby="t3" hidden>
+      <div class="meta">
+        <div><div class="lbl">Wat doet hij?</div><p>Maakt van ruwe vergadernotities een verslag met beslissingen en een actielijst. De ideale eerste agent: in tien minuten gebouwd.</p></div>
+        <div><div class="lbl">Kennis</div><ul><li>Geen nodig</li><li>Optioneel: de jaarkalender</li></ul></div>
+        <div><div class="lbl">Probeer</div><ul><li>Maak een verslag van deze notities: [notities]</li><li>Haal alleen de acties uit deze notities.</li></ul></div>
+      </div>
+      <div class="codebox collapsed"><div class="codehead"><div class="lbl">Instructies</div><button class="copy" type="button" data-target="i3">Kopieer instructies</button></div><pre id="i3" tabindex="0" aria-label="Instructies"># Rol
+Je bent een nauwkeurige notulist voor schoolvergaderingen (directieteam, personeelsvergadering, werkgroepen, scholengemeenschap).
+
+# Taak
+De gebruiker plakt ruwe notities, een transcript of steekwoorden. Jij maakt een verslag in deze structuur:
+1. Titel, datum, aanwezigen en verontschuldigd (alleen als dat in de notities staat).
+2. Per agendapunt: korte samenvatting (max. 4 zinnen).
+3. Beslissingen: genummerde lijst.
+4. Actielijst in een tabel: actie | wie | tegen wanneer | status.
+5. Punten voor de volgende vergadering.
+
+# Regels
+- Voeg niets toe wat niet in de notities staat. Ontbreekt een verantwoordelijke of deadline, noteer dan "nog te bepalen" en vraag er op het einde naar.
+- Schrijf neutraal en zakelijk, zonder meningen of beoordelingen van personen.
+- Laat gevoelige informatie over individuele leerlingen of personeelsleden weg en vermeld dat je dat gedaan hebt.
+- Sluit af met een voorstel van een kort bericht (max. 5 zinnen) om het verslag te delen met het team.
+- Schrijf in Vlaams Nederlands.</pre><button class="more" type="button" aria-expanded="false" aria-controls="i3">Toon volledige instructies</button></div>
+    </div>
+    </div>
+  </section>
+
+  <section class="sec" id="verkeerslicht" aria-labelledby="vl-t">
+    <div class="sec-h"><span class="mark" style="background:var(--t4)" aria-hidden="true"></span><h2 id="vl-t">Verkeerslicht</h2></div>
+    <p class="lead">Wat mag je in een agent steken?</p>
+    <div class="light">
+      <div class="lrow"><div class="pill go">Mag</div><div><b>Openbare info en beleidsdocumenten zonder persoonsgegevens</b><span>Regelgeving, schoolbeleidsplan, jaarkalender, vademecum, schoolreglement</span></div></div>
+      <div class="lrow"><div class="pill wait">Denk na</div><div><b>Interne info die niet voor iedereen bedoeld is</b><span>Verslagen van het directieteam, budgetten, lerarenopdrachten, resultaten op klasniveau</span></div></div>
+      <div class="lrow"><div class="pill stop">Nooit</div><div><b>Persoonsgegevens van leerlingen en gevoelige personeelsinfo</b><span>Zorg- en tuchtdossiers, klassenraadsverslagen, medische info, evaluaties, individuele resultaten</span></div></div>
+    </div>
+    <ul class="rules">
+      <li><b>Schoolaccount</b>Nooit een privéaccount voor schoolzaken.</li>
+      <li><b>Delen is openstellen</b>Wie je agent gebruikt, kan ook de kennis erin opvragen.</li>
+      <li><b>Mens beslist</b>AI bereidt voor, zeker bij evaluatie, oriëntering en tucht.</li>
+      <li><b>Altijd nakijken</b>Een bronvermelding betekent niet dat het klopt.</li>
+    </ul>
+    <p class="note">Sinds februari 2025 verplicht de Europese AI-verordening (AI Act) organisaties die AI inzetten om te zorgen voor voldoende AI-geletterdheid bij hun personeel.</p>
+  </section>
+
+  <section class="sec" id="materiaal" aria-labelledby="mat-t">
+    <div class="sec-h"><span class="mark" style="background:var(--t5)" aria-hidden="true"></span><h2 id="mat-t">Materiaal</h2></div>
+    <p class="lead">Word-bestanden, vrij te gebruiken en aan te passen voor je eigen school.</p>
+    <div id="files"></div>
+    <p class="note" id="dlnote" hidden>Downloaden werkt niet in deze weergave. Vraag de bestanden aan de lesgever.</p>
+
+    <h3 class="sub">Werkt het ook in andere tools?</h3>
+    <p class="lead">Ja: rol, kennis, grenzen en stijl werken overal. Welke tool je school gebruikt, is een beleidskeuze vanwege privacy en contracten.</p>
+    <div class="compare">
+      <table>
+        <thead><tr><th scope="col">Bouwsteen</th><th scope="col">Copilot-agent</th><th scope="col">Claude Project</th></tr></thead>
+        <tbody>
+          <tr><td>Instructies</td><td>Instructies</td><td>Projectinstructies</td></tr>
+          <tr><td>Kennis</td><td>Bestanden, websites, SharePoint (licentie)</td><td>Projectkennis (bestanden), webzoekfunctie, connectoren</td></tr>
+          <tr><td>Startprompts</td><td>Ingebouwd</td><td>Niet apart: zet voorbeeldvragen in de instructies</td></tr>
+          <tr><td>Delen met collega’s</td><td>Via link, binnen je organisatie</td><td>Met een Team- of Enterprise-abonnement</td></tr>
+          <tr><td>Contract met de school</td><td>Meestal via het bestaande Microsoft-contract</td><td>Alleen met een organisatieabonnement</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <div class="slot"><div>
+    <h2>Klein beginnen, goed instrueren, nooit rood, altijd nakijken.</h2>
+    <p>AI bereidt voor, een mens beslist.</p>
+  </div></div>
+</main>
+
+
+</div>
+<footer class="foot">Navorming “Je eigen AI-assistent in Copilot”. Het Horizoncollege en alle schooldocumenten zijn fictief en bedoeld als oefenmateriaal. Functies van Copilot en Claude veranderen regelmatig: kijk ze na in je eigen omgeving.</footer>
+
+<script>
+(function(){
+  // tabs
+  var tabs = Array.prototype.slice.call(document.querySelectorAll('[role="tab"]'));
+  function select(i, focus){
+    tabs.forEach(function(t, k){
+      var on = k === i;
+      t.setAttribute('aria-selected', on ? 'true' : 'false');
+      t.tabIndex = on ? 0 : -1;
+      document.getElementById(t.getAttribute('aria-controls')).hidden = !on;
+    });
+    if (focus) tabs[i].focus();
+  }
+  tabs.forEach(function(t, i){
+    t.addEventListener('click', function(){ select(i, false); });
+    t.addEventListener('keydown', function(e){
+      if (e.key === 'ArrowRight') { e.preventDefault(); select((i + 1) % tabs.length, true); }
+      if (e.key === 'ArrowLeft') { e.preventDefault(); select((i + tabs.length - 1) % tabs.length, true); }
+      if (e.key === 'Home') { e.preventDefault(); select(0, true); }
+      if (e.key === 'End') { e.preventDefault(); select(tabs.length - 1, true); }
+    });
+  });
+  // deep link: #directiemaatje, #vergaderkompas, ...
+  function fromHash(){
+    var h = (location.hash || '').slice(1);
+    tabs.forEach(function(t, i){
+      var p = document.getElementById(t.getAttribute('aria-controls'));
+      if (p.getAttribute('data-hash') === h) { select(i, false); document.getElementById('agents').scrollIntoView(); }
+    });
+  }
+  fromHash();
+  window.addEventListener('hashchange', fromHash);
+
+  var status = document.getElementById('status');
+  function announce(msg){ status.textContent = ''; setTimeout(function(){ status.textContent = msg; }, 50); }
+
+  // expand instructions
+  document.querySelectorAll('.more').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var box = btn.parentNode;
+      var open = box.classList.toggle('collapsed') === false;
+      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      btn.textContent = open ? 'Toon minder' : 'Toon volledige instructies';
+    });
+  });
+
+  // active section in nav
+  var navLinks = Array.prototype.slice.call(document.querySelectorAll('.regs a'));
+  if ('IntersectionObserver' in window) {
+    var visible = {};
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){ visible[en.target.id] = en.isIntersecting; });
+      var current = null;
+      navLinks.forEach(function(a){ var id = a.getAttribute('href').slice(1); if (visible[id] && !current) current = id; });
+      navLinks.forEach(function(a){
+        if (a.getAttribute('href').slice(1) === current) a.setAttribute('aria-current', 'true'); else a.removeAttribute('aria-current');
+      });
+    }, { rootMargin: '-15% 0px -60% 0px' });
+    navLinks.forEach(function(a){ var s = document.getElementById(a.getAttribute('href').slice(1)); if (s) io.observe(s); });
+  }
+
+  // copy
+  document.querySelectorAll('.copy').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var pre = document.getElementById(btn.getAttribute('data-target'));
+      function done(msg){ btn.textContent = msg; btn.classList.add('done'); announce(msg === 'Gekopieerd' ? 'Instructies gekopieerd naar het klembord' : 'Instructies geselecteerd. Druk Ctrl+C om te kopiëren'); setTimeout(function(){ btn.textContent = 'Kopieer instructies'; btn.classList.remove('done'); }, 2200); }
+      function fallback(){
+        var r = document.createRange(); r.selectNodeContents(pre);
+        var s = window.getSelection(); s.removeAllRanges(); s.addRange(r);
+        done('Geselecteerd: druk Ctrl+C');
+      }
+      try {
+        navigator.clipboard.writeText(pre.textContent).then(function(){ done('Gekopieerd'); }, fallback);
+      } catch (e) { fallback(); }
+    });
+  });
+
+  // session switch
+  var SKEY = 'navorming-sessie';
+  function showSession(which, save){
+    var am = which !== 'pm';
+    document.getElementById('s-am').setAttribute('aria-pressed', am ? 'true' : 'false');
+    document.getElementById('s-pm').setAttribute('aria-pressed', am ? 'false' : 'true');
+    document.getElementById('prog-am').hidden = !am;
+    document.getElementById('prog-pm').hidden = am;
+    if (save) { try { localStorage.setItem(SKEY, am ? 'am' : 'pm'); } catch (e) {} }
+  }
+  document.getElementById('s-am').addEventListener('click', function(){ showSession('am', true); });
+  document.getElementById('s-pm').addEventListener('click', function(){ showSession('pm', true); });
+  var h0 = (location.hash || '').slice(1);
+  if (h0 === 'voormiddag' || h0 === 'namiddag') { showSession(h0 === 'namiddag' ? 'pm' : 'am', false); document.getElementById('programma').scrollIntoView(); }
+  else { try { showSession(localStorage.getItem(SKEY) || 'am', false); } catch (e) {} }
+
+  // checklist
+  var boxes = Array.prototype.slice.call(document.querySelectorAll('#check input'));
+  var KEY = 'navorming-check';
+  function update(){
+    var n = boxes.filter(function(b){ return b.checked; }).length;
+    document.getElementById('progress').textContent = n === boxes.length ? 'Alles klaar. Tot dan!' : n + ' van ' + boxes.length + ' klaar';
+    document.getElementById('barfill').style.width = (n / boxes.length * 100) + '%';
+  }
+  try { var saved = JSON.parse(localStorage.getItem(KEY) || '{}'); boxes.forEach(function(b){ b.checked = !!saved[b.id]; }); } catch (e) {}
+  boxes.forEach(function(b){
+    b.addEventListener('change', function(){
+      var s = {}; boxes.forEach(function(x){ s[x.id] = x.checked; });
+      try { localStorage.setItem(KEY, JSON.stringify(s)); } catch (e) {}
+      update();
+    });
+  });
+  update();
+
+  // downloads
+  var groups = [
+    { title: 'Voor de agents', items: [
+      ['materiaal/agent-instructies.docx', 'Agent-instructies.docx', 'Agent-instructies', 'Naam, beschrijving, instructies, kennis en startprompts van de vier agents'],
+      ['materiaal/hand-out-deelnemers.docx', 'Hand-out deelnemers.docx', 'Hand-out', 'Stappenplan, sjabloon, verkeerslicht, testkaart en actieplan']
+    ]},
+    { title: 'Fictieve school: het Horizoncollege', items: [
+      ['materiaal/01-schoolbeleidsplan-2025-2028.docx', '01 Schoolbeleidsplan 2025-2028.docx', 'Schoolbeleidsplan 2025–2028', 'Vier prioriteiten met meetbare doelen'],
+      ['materiaal/02-verslag-doorlichting-maart-2025.docx', '02 Verslag doorlichting maart 2025.docx', 'Verslag doorlichting', 'Sterktes en drie ontwikkelpunten'],
+      ['materiaal/03-personeelsvademecum-2026-2027.docx', '03 Personeelsvademecum 2026-2027.docx', 'Personeelsvademecum', 'Afwezigheden, vervangingen, functioneringsgesprekken'],
+      ['materiaal/04-jaarkalender-en-vergaderplanning-2026-2027.docx', '04 Jaarkalender en vergaderplanning 2026-2027.docx', 'Jaarkalender en vergaderplanning', 'Personeelsvergaderingen, klassenraden, deadlines'],
+      ['materiaal/05-schoolreglement-uittreksel.docx', '05 Schoolreglement - uittreksel.docx', 'Schoolreglement (uittreksel)', 'Afwezigheden, evaluatie, orde en tucht, AI'],
+      ['materiaal/06-professionaliseringsplan-2026-2027.docx', '06 Professionaliseringsplan 2026-2027.docx', 'Professionaliseringsplan', 'Budget, acties en opvolging']
+    ]}
+  ];
+  var host = document.getElementById('files');
+  var buttons = [];
+  groups.forEach(function(g){
+    var wrap = document.createElement('div'); wrap.className = 'fgroup';
+    var h = document.createElement('div'); h.className = 'fglabel'; h.textContent = g.title; wrap.appendChild(h);
+    var list = document.createElement('div'); list.className = 'files';
+    g.items.forEach(function(it){
+      var row = document.createElement('div'); row.className = 'file';
+      var txt = document.createElement('div');
+      var b = document.createElement('b'); b.textContent = it[2];
+      var s = document.createElement('span'); s.textContent = it[3];
+      txt.appendChild(b); txt.appendChild(s);
+      var btn = document.createElement('button'); btn.className = 'dl'; btn.type = 'button'; btn.textContent = 'Download .docx';
+      btn.setAttribute('aria-label', 'Download ' + it[2]);
+      btn.dataset.path = it[0]; btn.dataset.name = it[1];
+      row.appendChild(txt); row.appendChild(btn); list.appendChild(row);
+      buttons.push(btn);
+    });
+    wrap.appendChild(list); host.appendChild(wrap);
+  });
+
+  buttons.forEach(function(btn){
+    var a = document.createElement('a');
+    a.className = 'dl';
+    a.href = btn.dataset.path;
+    a.setAttribute('download', btn.dataset.name);
+    a.setAttribute('aria-label', btn.getAttribute('aria-label'));
+    a.textContent = 'Download .docx';
+    btn.replaceWith(a);
+  });
+})();
+</script>
+
+
+</body>
+</html>
